@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <script src="./scripts/axios.js"></script>
-  <script src="./scripts/client.js"></script>
+  <script defer src="./scripts/client.js"></script>
   <title>SQL TO-DO List</title>
 </head>
+
 <body>
   <header>
     <h1>SQL TO-DO List</h1>
   </header>
+  <section id="addToDo">
+    <h2>Add To-Do</h2>
+    <input type="text" id="toDoTextinput" data-testid="toDoTextInput" value="" placeholder="New To Do Item">
+    <button type="button" data-testid="submitButton" id="submitButton" onclick="addToDo(event)">Submit To Do
+      Item</button>
+  </section>
 
+  <section>
+    <h2>Current To-Do List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>To Do Item</th>
+          <th>Completed</th>
+          <th>Complete Button</th>
+          <th>Delete Item</th>
+        </tr>
+      </thead>
+      <tbody id="viewToDo's">
+
+      </tbody>
+    </table>
+  </section>
 </body>
+
 </html>
