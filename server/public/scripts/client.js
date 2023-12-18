@@ -1,12 +1,10 @@
 console.log('JS is sourced!');
-/**
- * DOM ELEMENTS
- */
-let toDoTBody = document.getElementById('viewToDos');
+refreshToDo();
+//let toDoTBody = document.getElementById('viewToDos');
 
 
-function getToDos() {
-    // console.log( 'in getToDos' );
+function refreshToDo() {
+    console.log('in refreshToDo');
     // axios call to server to get todos
 
     axios({
@@ -16,15 +14,15 @@ function getToDos() {
         .then((response) => {
             console.log(response.data);
             // send in the array of objects
-            appendsToDosToTable(response.data);
-            // appendsToDosToTable(todosArray);
+            renderToDo(response.data);
+            // renderToDo(todosArray);
         })
         .catch((error) => {
             console.log("whoops, there be an error in here!");
             console.error(error);
         })
 
-} 
+}
 
 
 //function to create new to do item when submit button is pressed
@@ -34,30 +32,30 @@ function addToDo(event) {
     console.log("Submit button clicked.");
     let todo = {};
     todo.text = document.getElementById("toDoTextinput").value;
-    
-    console.log("todo:", todo);
+
+    console.log("todo:", todo.text);
     saveToDo(todo);
 }
 
 //function to clear form once todo is created and added to db
-function clearForm() {
-    document.getElementById('toDoText').value = '';
-    
-}
+// function clearForm() {
+// document.getElementById('toDoText').value = '';
+
+// }
 
 //function to save todo to db via axios post route to server to db via pg pool
-function save(addToDo) {
+function saveToDo(addToDo) {
     console.log('We are checking what the inputs are', addToDo);
 
     axios({
         method: "POST",
         url: "/todos",
-        data: Added,
+        data: addToDo
     })
         .then(function (response) {
             console.log("saveToDo()", response.data);
-            getToDos();
-            clearForm();
+            refreshToDo();
+            // clearForm();
         })
         .catch(function (error) {
             console.log("Error in POST", error);
@@ -65,7 +63,7 @@ function save(addToDo) {
         });
 }
 
- 
+
 // axios delete route to delete todo by id with delete button
 function deleteToDo(event) {
     const id = event.target.closest("tr").dataset.id;
@@ -78,7 +76,7 @@ function deleteToDo(event) {
         .then((response) => {
             console.log("response:", response.data);
             // refresh the table
-            getKoalas();
+            getToDos();
         })
         .catch((error) => {
             console.log("whoops, there be an error in here!");
@@ -86,31 +84,67 @@ function deleteToDo(event) {
         })
 }
 
-function appendsToDosToTable(arrayOfToDo) {
-     console.log("made it into the appendsToDoToTable - function!");
+
+
+function renderToDo(input) {
+    const toDoStuff = document.getElementById('viewToDo')
+    toDoStuff.innerHTML = '';
+
+    for (let i = 0; i < input.length; i += 1) {
+        let todo = input[i];
+        // For each to do, append a new row to our table
+        toDoStuff.innerHTML += (`
+        <tr data-id="${todo.id}">
+          <td >${todo.text}</td>
+          <td>${todo.isComplete}</td>
+          <td><button onClick="deleteBook(event)">Delete</button></td>
+          <td><button onClick="readBook(event)">Mark as Read</button></td>
+  
+        </tr>
+      `);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**  {
+    console.log("made it into the appendsToDoToTable - function!");
     console.log("our todos:");
     console.table(arrayOfToDo);
 
     // reset inner html of the table body
-    toDoTBody.innerHTML = "";
+     toDoTBody.innerHTML = "";
 
     for (let todo of arrayOfToDo) {
-        // console.log("todo:", todos.text, "isComplete:", todos.isComplete  );
+     console.log("todo:", todo.text, "isComplete:", todo.isComplete  );
 
         toDoTBody.innerHTML +=
             `
-      <tr data-id="${todo.id}">
+      <tr data-testid="toDoItem" data-id="${todo.id}">
       <td>${todo.text}</td>
-      <td>${todo.isComplete}</td>
-      
-      <td>${todo.isComplete ? '' : '<button onclick="isComplete(event)">To Do Complete</button>'}</td>
+      <td>${todo.iscomplete}</td>
+
+      <td>${todo.iscomplete ? '' : '<button onclick="isComplete(event)">To Do Complete</button>'}</td>
       <td><button onclick="deleteToDo(event)">Delete</button></td>
-      </tr>    
-      `;
+      </tr>
+     ` ;
 
     }
-}
+}*/
 
-getToDos();
+
 // saveKoala();
 // 

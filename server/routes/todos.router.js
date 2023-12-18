@@ -5,7 +5,7 @@ const pool = require('../modules/pool');
 // initial GET request
 router.get("/", (req, res) => {
   let queryText = 'SELECT * FROM "todos";'; //select all from todos table
-
+    console.log(queryText);
   // ! use the pool to send query
   pool
     .query(queryText)
@@ -33,14 +33,13 @@ router.post("/", (req, res) => {
     // Sending data to DB
     // ! Querytext
     const queryText = `
-       INSERT INTO "todos" ("text", "isComplete" )
+       INSERT INTO "todos" ("text")
        VALUES
-           ($1, $2);
+           ($1);
        `;
   
     let queryParams = [
-      newToDo.text,
-      newToDo.isComplete
+      newToDo.text
       
     ];
     console.log("QueryText:", queryText);
