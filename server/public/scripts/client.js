@@ -39,7 +39,8 @@ function addToDo(event) {
 
 //function to clear form once todo is created and added to db
 function clearForm() {
-document.getElementById('toDoText').value = '';
+    
+document.getElementById('toDoTextinput').value = '';
 
 }
 
@@ -97,8 +98,8 @@ function renderToDo(input) {
         <tr data-testid="toDoItem" data-id="${todo.id}">
           <td >${todo.text}</td>
           <td>${todo.isComplete}</td>
-          <td><button onClick="deleteToDo(event)">Delete</button></td>
-          <td><button onClick="doneToDo(event)">Mark as Read</button></td>
+          <td><button onClick="deleteToDo(event)" data-testid="deleteButton">Delete</button></td>
+          <td><button onClick="doneToDo(event)" data-testid="completeButton">Mark as Read</button></td>
   
         </tr>
       `);
