@@ -63,12 +63,14 @@ router.post("/", (req, res) => {
 // !PUT
 //use to have complete button modify  isComplete to 'true'
 router.put("/:id", (req, res) => {
-    let todosId = req.params.id;
-    console.log("todosID", todosId);
-    let queryText;
-    let queryParams = [todosId];
-    pool
-        .query(queryText, queryParams)
+    const queryText = `
+    UPDATE "todos"
+    SET "isComplete" = not "isComplete"
+    WHERE "id" = $1;
+  `
+  let queryParams = [req.params.id]
+  console.log("Incoming params for todos/:id :", queryParams)
+       pool.query(queryText, queryParams)
         .then((result) => {
             res.sendStatus(204);
         })
@@ -79,6 +81,12 @@ router.put("/:id", (req, res) => {
         });
 });
 
+
+
+
+
+
+
 // ! DELETE
 // used for the delete button
 // Request must include a parameter indicating what book to update - the id
@@ -88,7 +96,7 @@ router.delete("/:id", (req, res) => {
     let toDoId = req.params.id;
     console.log("todos id:", toDoId);
 
-    // SQL query to delete the book with the specified ID
+    // SQL query to delete the todo with the specified ID
     let sqlText = "DELETE FROM todos WHERE id=$1;";
 
     // Executing the query using the pool object

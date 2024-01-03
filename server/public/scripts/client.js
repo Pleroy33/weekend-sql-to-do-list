@@ -91,18 +91,27 @@ function renderToDo(input) {
     const toDoStuff = document.getElementById('viewToDo')
     toDoStuff.innerHTML = '';
 
+    
     for (let i = 0; i < input.length; i += 1) {
         let todo = input[i];
+        let cssClassToApply = ''
+        if (todo.isComplete === true) {
+            cssClassToApply = 'completed'
+            //completeButtonText = `Complete`
+          } else {cssClassToApply = 'uncompleted'}
+    
         // For each to do, append a new row to our table
         toDoStuff.innerHTML += (`
         <tr data-testid="toDoItem" data-id="${todo.id}">
           <td >${todo.text}</td>
-          <td>${todo.isComplete}</td>
+          <td class="toDoItem ${cssClassToApply}">${todo.isComplete}</td>
           <td><button onClick="deleteToDo(event)" data-testid="deleteButton">Delete</button></td>
           <td><button onClick="doneToDo(event)" data-testid="completeButton">Mark as Read</button></td>
   
         </tr>
       `);
+
+
     }
 }
 
@@ -116,7 +125,7 @@ function doneToDo(event) {
   
     axios.put (`/todos/${toDoId}`)
       .then((response) => {
-        refreshBooks();
+        refreshToDo();
       })
       .catch((error) => {
         console.log('Error', error);
