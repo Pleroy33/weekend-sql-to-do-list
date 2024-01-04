@@ -102,9 +102,9 @@ function renderToDo(input) {
     
         // For each to do, append a new row to our table
         toDoStuff.innerHTML += (`
-        <tr data-testid="toDoItem" data-id="${todo.id}">
+        <tr data-testid="toDoItem" class="${cssClassToApply}"data-id="${todo.id}">
           <td >${todo.text}</td>
-          <td class="toDoItem ${cssClassToApply}">${todo.isComplete}</td>
+          <td>${todo.isComplete}</td>
           <td><button onClick="deleteToDo(event)" data-testid="deleteButton">Delete</button></td>
           <td><button onClick="doneToDo(event)" data-testid="completeButton">Mark as Read</button></td>
   
